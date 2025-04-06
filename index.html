@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JARVIS - AI Assistant</title>
+    <link rel="shortcut icon" href="avatar.png" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+
+<body>
+    <section class="main">
+        <div class="container">
+            <div class="hero">
+                <img src="giphy.gif" class="jarvis-gif" alt="JARVIS">
+                <h1>J A R V I S</h1>
+                <p class="status">Initializing...</p>
+            </div>
+            <button id="permissionHelper" style="display:none;"></button>
+            <div class="transcript" id="transcript"></div>
+        </div>
+    </section>
+
+    <!-- Load app.js for frontend functionality -->
+    <script src="app.js"></script>
+
+    <!-- Electron communication script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const runButton = document.getElementById('runCommand');
+
+            if (runButton) {
+                runButton.addEventListener('click', () => {
+                    window.api.send('execute-command', 'ls'); // Change command as needed
+                });
+
+                window.api.receive('command-response', (response) => {
+                    if (response) {
+                    console.log('Response:', response); }
+                    // Handle response
+                    else {
+                        console.error('❌ No response received from Electron.');
+                    }
+                });
+            } else {
+                console.error("⚠️ runCommand button not found!");
+            }
+        });
+    </script>
+
+</body>
+</html>
